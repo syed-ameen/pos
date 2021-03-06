@@ -1,0 +1,84 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-add-product',
+  templateUrl: './add-product.component.html',
+  styleUrls: ['./add-product.component.css']
+})
+export class AddProductComponent implements OnInit {
+
+  validateForm!: FormGroup;
+  controlArray: Array<{ index: number; show: boolean, name: string, type: string, options?: any, prefix?: string, suffix?: string }> = [
+    {
+      index: 0,
+      show: true,
+      name: 'Name',
+      type: 'input',
+      suffix: 'menu'
+    },
+    {
+      index: 1,
+      show: true,
+      name: 'Supplier',
+      type: 'select',
+      options: [
+        {
+          label: 'option1',
+          value: 'warehouse'
+        },
+        {
+          label: 'option2',
+          value: 'shop'
+        }
+      ]
+    },
+    {
+      index: 2,
+      show: true,
+      name: 'Gallery',
+      type: 'file'
+    }
+  ];
+  isCollapse = true;
+
+  toggleCollapse(): void {
+    this.isCollapse = !this.isCollapse;
+    this.controlArray.forEach((c, index) => {
+      c.show = this.isCollapse ? index < 6 : true;
+    });
+  }
+
+  resetForm(): void {
+    this.validateForm.reset();
+  }
+
+  constructor(private fb: FormBuilder, private msg: NzMessageService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.validateForm = this.fb.group({});
+    for (let i = 0; i < this.controlArray.length; i++) {
+      const element = this.controlArray[i];
+      this.validateForm.addControl(element.name, new FormControl());
+    }
+
+  }
+  handleChange(info: NzUploadChangeParam, name: string): void {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      this.validateForm.get('Gallery').setValue('info.file.name');
+      this.msg.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
+  }
+
+  openLink(path) {
+    this.router.navigateByUrl(`/${path}`);
+  }
+}

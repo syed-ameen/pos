@@ -1,0 +1,18 @@
+* add logo on top of side bar
+* event calendar 
+* page heading
+* data grid table & with between the textboxes
+* add a button with responsive
+* How create dashboard
+* How to make POS page
+* radio button - try
+* checkbox - try
+* datetime picker - ok
+* notes or address - ok
+* count box - try
+* email box - try
+
+
+GIS
+
+

@@ -1,0 +1,13 @@
+with back():
+
+<nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon nzTitle="Calendar" nzSubtitle="This is a subtitle">
+</nz-page-header>
+<br>
+
+*****************************************
+without back() function:
+
+<div>
+    <nz-page-header class="site-page-header" nzTitle="Product" nzSubtitle="This is a subtitle">
+    </nz-page-header>
+</div>

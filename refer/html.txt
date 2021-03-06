@@ -1,0 +1,46 @@
+<form nz-form [formGroup]="validateForm" class="ant-advanced-search-form">
+    <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="12" *ngFor="let control of controlArray" [hidden]="!control.show">
+            <nz-form-item>
+                <nz-form-label [nzFor]="control.name"> {{ control.name }}</nz-form-label>
+                <nz-form-control>
+                    <nz-input-group *ngIf="control.type === 'input'" nz-input placeholder="placeholder" [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser">
+                        <ng-template #prefixTemplateUser><i *ngIf="control.prefix" nz-icon nzType="{{control.prefix}}"></i></ng-template>
+                        <ng-template #suffixTemplateInfo><i *ngIf="control.suffix" nz-icon nzType="{{control.suffix}}"></i></ng-template>
+                        <input [formControlName]="control.name" [attr.id]="control.name" type="text" nz-input />
+                    </nz-input-group>
+                    <!-- <input *ngIf="control.type === 'input'" nz-input placeholder="placeholder"
+                        [formControlName]="control.name" [attr.id]="control.name" /> -->
+                    <nz-select *ngIf="control.type === 'select'" [formControlName]="control.name" [attr.id]="control.name" nzAllowClear nzPlaceHolder="Choose">
+                        <nz-option *ngFor="let opt of control.options" nzValue="{{opt.value}}" nzLabel="{{opt.label}}">
+                        </nz-option>
+                    </nz-select>
+                    <nz-upload *ngIf="control.type === 'file'" [attr.id]="control.name" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" [nzHeaders]="{ authorization: 'authorization-text' }" (nzChange)="handleChange($event, control.name)">
+                        <button nz-button><i nz-icon nzType="upload"></i>Click to Upload</button>
+                    </nz-upload>
+		    <!-- note refer Important -->
+                    <nz-date-picker *ngIf="control.type === 'date'" [formControlName]="control.name" [attr.id]="control.name" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+		    <!-- description -->
+                    <nz-input-group *ngIf="control.type === 'description'" [formControlName]="control.name" [attr.id]="control.name" [nzSuffix]="textAreaClearTpl" class="ant-input-affix-wrapper-textarea-with-clear-btn">
+                        <textarea nz-input [(ngModel)]="textValue" placeholder="textarea with clear icon"></textarea>
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div nz-row>
+        <div nz-col [nzSpan]="24" class="search-area">
+            <!-- <button nzTooltipTitle="add promos settings" nzTooltipPlacement="top" nz-button nz-tooltip nz-button [nzType]="'primary'">Save</button> -->
+            <button nz-button nz-popconfirm nzOkText="Yes" nzCancelText="No" nzPopconfirmTitle="Are you sure to save this setting" nzTooltipTitle="add promos settings" nzTooltipPlacement="top" nz-button nz-tooltip>Save</button>
+            <button nzTooltipTitle="clear the page" nzTooltipPlacement="top" nz-button nz-tooltip nz-button (click)="resetForm()">Clear</button>
+            <a class="collapse" (click)="toggleCollapse()">
+                more
+                <i nz-icon [nzType]="isCollapse ? 'down' : 'up'"></i>
+            </a>
+        </div>
+
+        <!-- <div nz-col [nzSpan]="24" class="supplier-list">
+            <button nzTooltipTitle="view supplier list" (click)="openLink('supplier-list')" nzTooltipPlacement="top" nz-button nz-tooltip nz-button [nzType]="'primary'">list supplier</button>
+        </div> -->
+    </div>
+</form>
